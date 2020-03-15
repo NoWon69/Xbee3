@@ -18,11 +18,11 @@
  *    ----        ---            ----
  *    2019-05-21  Daniel Terryn  Original Creation
  *    2020-01-01  Jason Bottjen  Added options for debug and descriptionText logging
- *    2020-01-08  N0W0n		     added 10 minute departure option and battery replace date
- * 
+ *    2020-01-08  N0W0n          added 10 minute departure option and battery replace date
+ *    2020-03-09  N0W0n          added 15 and 30 minute departure time
  */
 metadata {
-    definition (name: "XBee Presence bat set", namespace: "dan.t", author: "Daniel Terryn") {
+    definition (name: "XBee3 Presence", namespace: "dan.t", author: "Daniel Terryn") {
         capability "Sensor"
         capability "Configuration"
         capability "Battery"
@@ -35,7 +35,7 @@ metadata {
     
     preferences {
         input "fullVoltageValue", "enum", title:"Battery 100% mV:", required:true, defaultValue:3300, options:[3000:"3000 mV",3300:"3300 mV",3600:"3600 mV"]
-        input "checkInterval", "enum", title:"Minutes elapsed until sensor is not present", required:true, defaultValue:3, options:[1:"1 Minute",2:"2 Minutes",3:"3 Minutes", 4:"4 Minutes",5:"5 Minutes",10:"10 Minutes"]
+        input "checkInterval", "enum", title:"Minutes elapsed until sensor is not present", required:true, defaultValue:3, options:[1:"1 Minute",2:"2 Minutes",3:"3 Minutes", 4:"4 Minutes",5:"5 Minutes",10:"10 Minutes",15:"15 Minutes",30:"30 Minutes"]
         input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: false
         input name: "logDesc", type: "bool", title: "Enable descriptionText logging", defaultValue: true
     }
