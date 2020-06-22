@@ -23,7 +23,7 @@
  *    2020-06-22  N0W0n          general house cleaning
  */
 metadata {
-    definition (name: "XBee3 Presence 4", namespace: "dan.t", author: "Daniel Terryn") {
+    definition (name: "XBee3 Presence 2020-06-22", namespace: "dan.t", author: "Daniel Terryn") {
         capability "Sensor"
         capability "Configuration"
         capability "Battery"
