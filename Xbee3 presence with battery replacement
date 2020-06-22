@@ -20,9 +20,10 @@
  *    2020-01-01  Jason Bottjen  Added options for debug and descriptionText logging
  *    2020-01-08  N0W0n          added 10 minute departure option and battery replace date
  *    2020-03-09  N0W0n          added 15 and 30 minute departure time
+ *    2020-06-22  N0W0n          general house cleaning
  */
 metadata {
-    definition (name: "XBee3 Presence", namespace: "dan.t", author: "Daniel Terryn") {
+    definition (name: "XBee3 Presence 4", namespace: "dan.t", author: "Daniel Terryn") {
         capability "Sensor"
         capability "Configuration"
         capability "Battery"
@@ -43,9 +44,9 @@ metadata {
 
 //Reset the batteryLastReplaced date to current date
 def resetBatteryReplacedDate(paired) {
-	def newlyPaired = paired ? " for newly paired sensor" : ""
-	sendEvent(name: "batteryLastReplaced", value: new Date())
-    log.debug "Setting Battery Last Replaced to current date${newlyPaired}"
+    def newlyPaired = paired ? " for newly paired sensor" : ""
+    sendEvent(name: "batteryLastReplaced", value: new Date())
+    if (logDesc) log.info "Setting Battery Last Replaced to current date${newlyPaired}"
 }
 
 def updated() {
@@ -57,18 +58,18 @@ def updated() {
 def installed() {
 // Arrival sensors only goes OFFLINE when Hub is off
 }
+
 def configure() {
     log.warn "configure..."
     return []
 }
+
 def parse(String description) {
-    state.lastCheckin = now()
-    
+    state.lastCheckin = now()  
     handlePresenceEvent(true)
     if (description?.startsWith('catchall')) {
         parseCatchAllMessage(description)
     }
-
     return []
 }
 
@@ -77,8 +78,7 @@ private Map parseCatchAllMessage(String description) {
     def cluster = zigbee.parse(description)
     if (cluster.clusterId == 0x0011 && cluster.command == 0x01){
         handleBatteryEvent(cluster)
-    }
-    
+    }   
     return resultMap
 }
 
@@ -88,8 +88,7 @@ private Map parseCatchAllMessage(String description) {
  * @param volts Battery voltage in mV
  */
 private handleBatteryEvent(cluster) {
-    def descriptionText
-    
+    def descriptionText   
     def battery_string = ""
     for (element in cluster.data) {
         battery_string = battery_string + Integer.toString(element,16).padLeft(2, '0')
@@ -126,8 +125,7 @@ private handleBatteryEvent(cluster) {
         type: "digital"
     ]
     if (logEnable) log.debug "Creating battery event for voltage=${battery_mV/1000}V: ${linkText} ${eventMap.name} is ${eventMap.value}%"
-    sendEvent(eventMap)
-    
+    sendEvent(eventMap)  
 }
 
 private handlePresenceEvent(present) {
